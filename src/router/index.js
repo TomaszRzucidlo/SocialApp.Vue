@@ -28,6 +28,10 @@ const routes = [
     meta:{
       requiresAdmin: true
     }
+  },
+  {
+    path: '/:catchAll(.*)',
+    redirect: "/"
   }
 ]
 
