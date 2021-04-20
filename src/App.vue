@@ -1,8 +1,7 @@
 <template>
   <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> |
-    <router-link to="/admin">Admin</router-link>
+    <Navbar />
+    <Toast />
   </div>
   <router-view/>
 </template>
@@ -10,8 +9,10 @@
 <script>
 import { useStore } from 'vuex';
 import {computed} from 'vue';
+import Navbar from './components/Navbar.vue';
 
 export default ({
+  components: {Navbar},
   setup() {
     const store = useStore();
     const user = computed(() => store.state.user);
