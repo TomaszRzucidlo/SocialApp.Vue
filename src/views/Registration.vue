@@ -8,24 +8,24 @@
             <div class="user-form-contnent-box">
                 <span class="input-flex">
                     <h5>Imię</h5>
-                    <InputText id="firstName" type="text" v-model="state.user.firstName" />
+                    <InputText id="firstName" type="text" v-model="state.User.firstName" />
                 </span>
             </div>
             <div class="user-form-contnent-box">
                 <span class="input-flex">
                     <h5>Nazwisko</h5>
-                    <InputText id="lastName" type="text" v-model="state.user.lastName" />
+                    <InputText id="lastName" type="text" v-model="state.User.lastName" />
                 </span>
             </div>
             <div class="user-form-contnent-box">
                 <span class="input-flex">
                     <h5>Adres e-mail</h5>
-                    <InputText id="email" type="text" v-model="state.user.email" />
+                    <InputText id="email" type="text" v-model="state.User.email" />
                 </span>
             </div>
             <div class="user-form-contnent-box">
                 <h5>Hasło</h5>
-                <Password id="password" v-model="state.user.password" class="input-flex">
+                <Password id="password" v-model="state.User.password" class="input-flex">
                     <template #header>
                         <h6>Wprowadź hasło</h6>
                     </template>
@@ -49,14 +49,15 @@
 </template>
 <script>
 import {reactive} from 'vue';
-import {useStore} from 'vuex';
+//import {useStore} from 'vuex';
 import {useRouter} from 'vue-router'
 import { useToast } from "primevue/usetoast";
+import apiService from '../services/apiService'
 
 export default({
     setup() {
         const state = reactive({
-            user:{
+            User:{
                 firstName:"",
                 lastName:"",
                 email:"",
@@ -64,23 +65,22 @@ export default({
             }
         })
 
-        const store = useStore();
+        //const store = useStore();
         const router = useRouter();
         const toast = useToast();
 
         function registerUser(){
-            store.dispatch("register", state.user)
+            apiService.post("auth/register", state.User)
             .then(() => {
                 toast.add({severity:'success', summary: 'Dziękujemy za rejestrację', detail:'Możesz się teraz zalogować.', life: 5000});
-                router.push("/")
+                router.push("/login")
             })
-            .catch((statusCode) => {
-                handleError(statusCode);
+            .catch((error) => {
+                handleError(error.response.status);
             })
         }
 
         function handleError(statusCode){
-            console.log(statusCode);
             if(statusCode == 409){
                 toast.add({severity:'error', summary: 'Nie udało się zarejestrować', detail:'Użytkownik o podanym adresie e-mail już istnieje.', life: 5000});
             }else{
