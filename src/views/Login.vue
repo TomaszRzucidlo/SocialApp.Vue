@@ -28,10 +28,10 @@
 <script>
 
 import {reactive} from 'vue';
-//import {useStore} from 'vuex';
+import {useStore} from 'vuex';
 import {useRouter} from 'vue-router'
 import { useToast } from "primevue/usetoast";
-import apiService from '../services/apiService'
+//import apiService from '../services/apiService'
 
 export default ({
     setup() {
@@ -42,18 +42,17 @@ export default ({
             }
         });
 
-        //const store = useStore();
+        const store = useStore();
         const router = useRouter();
         const toast = useToast();
 
         function logIn(){
-            apiService.post("auth/log-in", state.User)
+            store.dispatch("logIn", state.User)
             .then(() => {
-                toast.add({severity:'success', summary: 'Dziękujemy za rejestrację', detail:'Możesz się teraz zalogować.', life: 5000});
                 router.push("/")
+                store.dispatch("getFriends")
             })
-            .catch((error) => {
-                console.log(error)
+            .catch(() => {
                 toast.add({severity:'error', summary: 'Wprowadzono nieprawidłowe dane', detail:'Sprawdź poprawność wprowadzonych danych.', life: 5000});
             })
         }
