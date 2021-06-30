@@ -8,7 +8,10 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    meta:{
+      requiresAuthentication: true
+    }
   },
   {
     path: '/registration',
@@ -32,7 +35,7 @@ const routes = [
     name: 'Admin',
     component: Admin,
     meta:{
-      requiresAdmin: true
+      requiresAuthentication: true
     }
   },
   {
@@ -50,7 +53,7 @@ router.beforeEach(async (to, from, next) =>{
   const isAdmin = true;
   const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin);
 
-  if(requiresAdmin && !isAdmin) next({name:"Home"})
+  if(requiresAdmin && !isAdmin) next({name:"Login"})
   else next();
 })
 

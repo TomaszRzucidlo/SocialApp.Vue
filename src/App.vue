@@ -12,7 +12,9 @@ import {computed} from 'vue';
 import Navbar from './components/Navbar.vue';
 
 export default ({
-  components: {Navbar},
+  components: {
+    Navbar
+  },
   setup() {
     const store = useStore();
     const user = computed(() => store.state.user);

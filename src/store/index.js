@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import { authStoreModule } from './auth.module'
+import { friendStoreModule } from './friend.module'
 
 export default createStore({
   state: {
@@ -15,6 +16,7 @@ export default createStore({
   },
 
   modules: {
-    Auth: authStoreModule
+    Auth: authStoreModule,
+    Friend: friendStoreModule
   }
 })
